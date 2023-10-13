@@ -1,0 +1,41 @@
+First we precompute all factorials modulo  
+$m$  up to  
+$\text{MAXN}!$  in  
+$O(\text{MAXN})$  time.
+
+factorial[0] = 1;
+for (int i = 1; i <= MAXN; i++) {
+    factorial[i] = factorial[i - 1] * i % m;
+}
+And afterwards we can compute the binomial coefficient in  
+$O(\log m)$  time.
+
+long long binomial_coefficient(int n, int k) {
+    return factorial[n] * inverse(factorial[k] * factorial[n - k] % m) % m;
+}
+We even can compute the binomial coefficient in  
+$O(1)$  time if we precompute the inverses of all factorials in  
+$O(\text{MAXN} \log m)$  using the regular method for computing the inverse, or even in  
+$O(\text{MAXN})$  time using the congruence  
+$(x!)^{-1} \equiv ((x-1)!)^{-1} \cdot x^{-1}$  and the method for computing all inverses in  
+$O(n)$ .
+
+long long binomial_coefficient(int n, int k) {
+    return factorial[n] * inverse_factorial[k] % m * inverse_factorial[n - k] % m;
+}
+
+const int maxn = ...;
+int C[maxn + 1][maxn + 1];
+C[0][0] = 1;
+for (int n = 1; n <= maxn; ++n) {
+    C[n][0] = C[n][n] = 1;
+    for (int k = 1; k < n; ++k)
+        C[n][k] = C[n - 1][k - 1] + C[n - 1][k];
+}
+
+int C(int n, int k) {
+    double res = 1;
+    for (int i = 1; i <= k; ++i)
+        res = res * (n - k + i) / i;
+    return (int)(res + 0.01);
+}
