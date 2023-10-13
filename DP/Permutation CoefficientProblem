@@ -1,0 +1,54 @@
+/*
+    Time Complexity : O(N * K)
+    Space Complexity : O(N * K)
+
+	Where 'N' and 'K' are the number given numbers. 
+*/
+
+#define moduli 1000000007
+
+int P(int n, int k) {
+    long long int p[n + 1][k + 1];
+
+    // Intial value for auxulary matrix is 0.
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= k; j++) {
+            p[i][j] = 0;
+        }
+    }
+
+    // 'P[X][0]' = 1 for all values of 'X'.
+    for (int i = 0; i <= n; i++) {
+        p[i][0] = 1;
+    }
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= min(i, k); j++) {
+            p[i][j] = p[i - 1][j] + (j * p[i - 1][j - 1]);
+            p[i][j] %= moduli;
+        }
+    }
+
+    return p[n][k];
+
+}
+
+/*
+   Time Complexity: O(N)
+   Space Complexity: O(1)
+   
+   Where 'N' is the number given number. 
+*/
+
+#define moduli 1000000007
+
+int P(int n, int k)
+{
+	long long int ans = 1;
+	// Multiply 'K' terms.
+	for (int i = 0; i < k; i++)
+	{
+		ans = (ans % moduli * (n - i) % moduli) % moduli;
+	}
+	return ans;
+}
