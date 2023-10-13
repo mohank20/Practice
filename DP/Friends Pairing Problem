@@ -1,0 +1,21 @@
+#define m 1000000007
+class Solution{
+    public:
+    //recursive function to return count of ways n people
+    //can remain single or paired up.
+    long long func(int n, vector<long long> &dp) {
+        if(dp[n]!=-1){
+            return dp[n];
+        }
+        if (n > 2)
+            return dp[n] = (func(n - 1, dp)%m + ((n - 1) * func(n - 2, dp))%m)%m;
+        else
+            return dp[n] = n;
+    }
+    // Returns count of ways n people 
+    // can remain single or paired up. 
+    int countFriendsPairings(int n) { 
+        vector<long long> dp(n+1, -1);
+        return func(n, dp);
+    }
+};
